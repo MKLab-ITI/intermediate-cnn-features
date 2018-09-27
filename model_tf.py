@@ -73,7 +73,7 @@ class CNN_tf():
                       'vgg_16/conv5/conv5_1', 'vgg_16/conv5/conv5_2',
                       'vgg_16/conv5/conv5_3']
         else:
-            raise ValueError('Network not found')
+            raise ValueError('Network not found. Supported networks for Tensorflow framework: vgg, resnet, inception')
 
         self.input = tf.placeholder(tf.uint8,
                 shape=(None, self.desired_size, self.desired_size, 3), name='input')

@@ -66,7 +66,7 @@ class CNN_caffe():
                            'conv4_2', 'conv4_3', 'conv5_1',
                            'conv5_2', 'conv5_3']
         else:
-            raise ValueError('Network not found')
+            raise ValueError('Network not found. Supported networks for Caffe framework: googlenet, vgg, resnet')
 
         # load network
         self.net = caffe.Net(prototxt, caffemodel, caffe.TEST)
