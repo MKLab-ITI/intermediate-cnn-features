@@ -35,7 +35,7 @@ def load_video(video, desired_size):
         frames = []
         count = 0
         fps = cap.get(cv2.CAP_PROP_FPS)
-        if not fps or fps != fps:
+        if not fps or fps != fps or fps == np.inf:
             fps = 25
         while cap.isOpened():
             ret, frame = cap.read()
