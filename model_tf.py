@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 """
-Caffe implementation of the feature extraction process described in:
+Tensorflow implementation of the feature extraction process described in:
 
 [1] Giorgos Kordopatis-Zilos, Symeon Papadopoulos, Ioannis Patras, Yiannis Kompatsiaris
     Near-Duplicate Video Retrieval by Aggregating Intermediate CNN Layers.
