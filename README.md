@@ -10,8 +10,8 @@ frame descriptor. The feature extraction process is depicted in the following fi
 <img src="https://raw.githubusercontent.com/MKLab-ITI/intermediate-cnn-features/develop/feature_extraction.png" width="60%">
 
 ## Prerequisites
-* Python 2
-* Caffe or Tensorflow (CPU or GPU version)
+* Python
+* Caffe or Tensorflow 1.xx
 
 ## Getting started
 
