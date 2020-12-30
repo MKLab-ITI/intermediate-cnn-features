@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+
+from __future__ import division
+
 import cv2
 import numpy as np
 
@@ -100,8 +103,8 @@ def pad_and_resize(image, desired_size):
     new_size = image_processed.shape[:2]
     delta_h = desired_size - new_size[0]
     delta_w = desired_size - new_size[1]
-    top, bottom = delta_h / 2, delta_h - (delta_h / 2)
-    left, right = delta_w / 2, delta_w - (delta_w / 2)
+    top, bottom = delta_h // 2, delta_h - (delta_h // 2)
+    left, right = delta_w // 2, delta_w - (delta_w // 2)
     image_processed = cv2.copyMakeBorder(
         image_processed, top, bottom, left, right, cv2.BORDER_CONSTANT, value=[0, 0, 0])
     return image_processed

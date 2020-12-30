@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==============================================================================
 """
-Tensorflow implementation of the feature extraction process described in:
+Caffe implementation of the feature extraction process described in:
 
 [1] Giorgos Kordopatis-Zilos, Symeon Papadopoulos, Ioannis Patras, Yiannis Kompatsiaris
     Near-Duplicate Video Retrieval by Aggregating Intermediate CNN Layers
@@ -25,8 +25,13 @@ This method is also used in:
     Near-Duplicate Video Retrieval with Deep Metric Learning.
     IEEE International Conference on Computer Vision Workshop (ICCVW), 2017.
 """
+
+from __future__ import division
+
 import caffe
 import numpy as np
+
+from future.utils import lrange
 
 caffe.set_device(0)
 caffe.set_mode_gpu()
@@ -115,7 +120,7 @@ class CNN_caffe():
         """
         preprocessed_images = self.preprocess(image_tensor)
         features = np.empty((preprocessed_images.shape[0], self.final_sz))
-        for i in xrange(preprocessed_images.shape[0] / batch_sz + 1):
+        for i in lrange(preprocessed_images.shape[0] // batch_sz + 1):
             batch = preprocessed_images[i * batch_sz:(i + 1) * batch_sz]
             if batch.size > 0:
                 self.net.blobs['data'].reshape(*batch.shape)

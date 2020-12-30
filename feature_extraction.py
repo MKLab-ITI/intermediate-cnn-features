@@ -12,11 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+
+from __future__ import division
+from __future__ import print_function
+
 import os
 import argparse
 import numpy as np
 
 from tqdm import tqdm
+from future.utils import lrange
 from multiprocessing import Pool
 from utils import load_video, load_image
 
@@ -34,17 +39,17 @@ def feature_extraction_videos(model, cores, batch_sz, video_list, output_path):
         output_path: path to store video features
     """
     videos = {i: video.strip() for i, video in enumerate(open(video_list).readlines())}
-    print '\nNumber of videos: ', len(videos)
-    print 'Storage directory: ', output_path
-    print 'CPU cores: ', cores
-    print 'Batch size: ', batch_sz
+    print('\nNumber of videos: ', len(videos))
+    print('Storage directory: ', output_path)
+    print('CPU cores: ', cores)
+    print('Batch size: ', batch_sz)
 
-    print '\nFeature Extraction Process'
-    print '=========================='
+    print('\nFeature Extraction Process')
+    print('==========================')
     pool = Pool(cores)
     future_videos = dict()
     output_list = []
-    pbar = tqdm(xrange(np.max(videos.keys()) + 1), mininterval=1.0, unit='video')
+    pbar = tqdm(lrange(np.max(videos.keys()) + 1), mininterval=1.0, unit='videos')
     for video in pbar:
         if os.path.exists(videos[video]):
             video_name = os.path.splitext(os.path.basename(videos[video]))[0]
@@ -55,7 +60,7 @@ def feature_extraction_videos(model, cores, batch_sz, video_list, output_path):
                 del future_videos[video]
 
             # load videos in parallel
-            for i in xrange(cores - len(future_videos)):
+            for _ in lrange(cores - len(future_videos)):
                 next_video = np.max(future_videos.keys()) + 1 \
                     if len(future_videos) else video + 1
 
@@ -90,17 +95,17 @@ def feature_extraction_images(model, cores, batch_sz, image_list, output_path):
         output_path: path to store video features
     """
     images = [image.strip() for image in open(image_list).readlines()]
-    print '\nNumber of images: ', len(images)
-    print 'Storage directory: ', output_path
-    print 'CPU cores: ', cores
-    print 'Batch size: ', batch_sz
+    print('\nNumber of images: ', len(images))
+    print('Storage directory: ', output_path)
+    print('CPU cores: ', cores)
+    print('Batch size: ', batch_sz)
 
-    print '\nFeature Extraction Process'
-    print '=========================='
+    print('\nFeature Extraction Process')
+    print('==========================')
     pool = Pool(cores)
-    batches = len(images)/batch_sz + 1
+    batches = len(images) // batch_sz + 1
     features = np.zeros((len(images), model.final_sz))
-    for batch in tqdm(xrange(batches), mininterval=1.0, unit='batches'):
+    for batch in tqdm(lrange(batches), mininterval=1.0, unit='batches'):
 
         # load images in parallel
         future = []
@@ -147,7 +152,7 @@ if __name__ == '__main__':
     args = vars(parser.parse_args())
 
     if args['framework'].lower() in ['tf', 'tensorflow']:
-        print 'Selected framework: Tensorflow'
+        print('Selected framework: Tensorflow')
         if not args['tf_model']:
             raise Exception('--tf_model argument is not provided. It have to be provided when '
                             'Tensorflow framework is selected. Download: '
@@ -156,9 +161,8 @@ if __name__ == '__main__':
             raise Exception('--tf_model argument is not a .ckpt file.')
         from model_tf import CNN_tf
         model = CNN_tf(args['network'].lower(), args['tf_model'])
-
-    if args['framework'].lower() in ['cf', 'caffe']:
-        print 'Selected framework: Caffe'
+    elif args['framework'].lower() in ['cf', 'caffe']:
+        print('Selected framework: Caffe')
         if not args['prototxt'] or not args['caffemodel']:
             raise Exception('--prototxt or --caffemodel arguments are not provided. They have '
                             'to be provided when Caffe framework is selected. Download: '
@@ -170,15 +174,17 @@ if __name__ == '__main__':
 
         from model_caffe import CNN_caffe
         model = CNN_caffe(args['network'].lower(), args['prototxt'], args['caffemodel'])
+    else:
+        raise Exception('--framework is invalid. Only Caffe and Tensorflow frameworks are supported')
 
-    print '\nCNN model has been built and initialized'
-    print 'Architecture used: ', args['network']
+    print('\nCNN model has been built and initialized')
+    print('Architecture used: ', args['network'])
 
     if args['video_list']:
         feature_extraction_videos(model, args['cores'], args['batch_sz'],
-                                 args['video_list'], args['output_path'])
+                                  args['video_list'], args['output_path'])
     elif args['image_list']:
         feature_extraction_images(model, args['cores'], args['batch_sz'],
-                                 args['image_list'], args['output_path'])
+                                  args['image_list'], args['output_path'])
     else:
         raise Exception('No --video_list or --image_list is given')
