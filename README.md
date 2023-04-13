@@ -7,7 +7,7 @@ Then, the Maximum Activation of Convolutions (MAC) function is applied on the ac
 to generate a compact layer vector. Finally, the layer vector are concatenated to generate a single
 frame descriptor. The feature extraction process is depicted in the following figure.
 
-<img src="https://raw.githubusercontent.com/MKLab-ITI/intermediate-cnn-features/develop/feature_extraction.png" width="60%">
+<img src="https://raw.githubusercontent.com/MKLab-ITI/intermediate-cnn-features/develop/feature_extraction.png" width="80%">
 
 ## Prerequisites
 * Python
@@ -59,17 +59,21 @@ python feature_extraction.py --image_list <image_file> --network vgg --framework
 
 ## Citation
 If you use this code for your research, please cite our paper.
-```
+```bibtex
 @inproceedings{kordopatis2017near,
   title={Near-Duplicate Video Retrieval by Aggregating Intermediate CNN Layers},
   author={Kordopatis-Zilos, Giorgos and Papadopoulos, Symeon and Patras, Ioannis and Kompatsiaris, Yiannis},
   booktitle={International Conference on Multimedia Modeling},
   year={2017}
 }
-
 ```
+
 ## Related Projects
-**[ViSiL](https://github.com/MKLab-ITI/visil)** **[NDVR-DML](https://github.com/MKLab-ITI/ndvr-dml)** **[FIVR-200K](https://github.com/MKLab-ITI/FIVR-200K)**
+**[NDVR-DML](https://github.com/MKLab-ITI/ndvr-dml)** - a deep metric learning approach for near-duplicate video retrieval
+
+**[ViSiL](https://github.com/MKLab-ITI/visil)** - video similarity learning for fine-grained similarity calculation
+
+**[FIVR-200K](https://github.com/MKLab-ITI/FIVR-200K)** - download our FIVR-200K dataset
 
 ## License
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
